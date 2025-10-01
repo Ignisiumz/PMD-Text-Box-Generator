@@ -181,7 +181,7 @@
     .icon-content img {
       max-width: 100%;
       max-height: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
 
     #finalimage {
@@ -221,7 +221,7 @@
     <div id="portraituploadwrapper" style="display:none;">
       <label for="portraitupload">Upload Portrait:</label>
       <input type="file" id="portraitupload" accept="image/*">
-
+<br><br>
       <label for="iconalign">Icon Alignment:</label>
       <select id="iconalign">
         <option value="left" selected>Left</option>
@@ -239,9 +239,9 @@
       <option value="yellow">Yellow</option>
     </select>
 
-    <button class="btn" id="musicbtn">♬ Play Music</button>
-    <button class="btn" id="previewbtn">▶ Generator</button>
-    <button class="btn" id="downloadbtn" style="display:none;">⬇️ Download PNG</button>
+    <button class="btn" id="musicbtn">⏸ Stop Music</button>
+    <button class="btn" id="previewbtn">▶ Create</button>
+    <button class="btn" id="downloadbtn" style="display:none;">Download PNG</button>
   </div>
 
   <div id="previewroot">
@@ -261,7 +261,7 @@
   <div id="resulttitle">Result:</div>
   <img id="finalimage" alt="Generated PMD Textbox" style="display:none;">
 
-  <audio id="bgmusic" src="assets/audio/music.mp3" loop></audio>
+  <audio id="bgmusic" src="assets/audio/music.mp3" loop autoplay></audio>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script>
@@ -286,7 +286,12 @@
     const textboxframe = document.getElementById('textboxframe');
     const resulttitle = document.getElementById('resulttitle');
 
-    let musicPlaying = false; 
+    let musicPlaying = true; // Music auto-starts
+
+    // Auto-play music
+    window.addEventListener('load', () => {
+      bgmusic.play().catch(e => console.log("Autoplay blocked:", e));
+    });
 
     // Toggle portrait
     iconmode.addEventListener('change', () => {
@@ -320,18 +325,32 @@
       }
     });
 
-    // Load ICON
+    // Load ICON and resize if too small
     portraitupload.addEventListener('change', (e) => {
       const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          portrait.src = reader.result;
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          // Resize if smaller than 198x198
+          const minSize = 198;
+          if (img.width < minSize || img.height < minSize) {
+            const canvas = document.createElement('canvas');
+            const scale = Math.max(minSize / img.width, minSize / img.height);
+            canvas.width = img.width * scale;
+            canvas.height = img.height * scale;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            portrait.src = canvas.toDataURL();
+          } else {
+            portrait.src = reader.result;
+          }
         };
-        reader.readAsDataURL(file);
-      } else {
-        portrait.src = "assets/image/chikorita.png";
-      }
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
     });
 
     // Render text
