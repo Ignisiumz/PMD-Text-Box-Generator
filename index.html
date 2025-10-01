@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PMD: EoS Textbox Generator</title>
-  <link rel="icon" type="image/png" href="/PMD-Text-Box-Generator/assets/webicon.png"> 
+  <link rel="icon" type="image/png" href="./assets/webicon.png"> 
   <style>
     @font-face {
       font-family: "PMDFont";
-      src: url("/PMD-Text-Box-Generator/assets/fonts/pmd.otf") format("opentype");
+      src: url("./assets/fonts/pmd.otf") format("opentype");
     }
 
     body {
@@ -117,7 +117,7 @@
     .textbox-frame {
       width: 1154px;
       height: 253px;
-      background-image: url('/PMD-Text-Box-Generator/assets/image/box.png');
+      background-image: url('./assets/image/box.png');
       background-size: 100% 100%;
       position: absolute;
       bottom: 0;
@@ -194,7 +194,7 @@
 </head>
 <body>
   <video autoplay loop muted playsinline id="bgvideo">
-    <source src="/PMD-Text-Box-Generator/assets/background/back.mp4" type="video/mp4">
+    <source src="./assets/background/back.mp4" type="video/mp4">
   </video>
 
   <h1>PMD: Explorers of Sky Textbox Generator</h1>
@@ -253,7 +253,7 @@
     </div>
     <div class="icon-frame" id="iconframe">
       <div class="icon-content">
-        <img id="portrait" src="/PMD-Text-Box-Generator/assets/image/chikorita.png" alt="Portrait">
+        <img id="portrait" src="./assets/image/chikorita.png" alt="Portrait">
       </div>
     </div>
   </div>
@@ -261,7 +261,7 @@
   <div id="resulttitle">Result:</div>
   <img id="finalimage" alt="Generated PMD Textbox" style="display:none;">
 
-  <audio id="bgmusic" src="/PMD-Text-Box-Generator/assets/audio/music.mp3" loop></audio>
+  <audio id="bgmusic" src="./assets/audio/music.mp3" loop></audio>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script>
@@ -294,7 +294,7 @@
         iconframe.style.display = "block";
         portraituploadwrapper.style.display = "block";
         previewroot.classList.add("with-icon");
-        portrait.src = portrait.src || "/PMD-Text-Box-Generator/assets/image/chikorita.png"; 
+        portrait.src = portrait.src || "./assets/image/chikorita.png"; 
       } else {
         iconframe.style.display = "none";
         portraituploadwrapper.style.display = "none";
@@ -330,7 +330,7 @@
         };
         reader.readAsDataURL(file);
       } else {
-        portrait.src = "/PMD-Text-Box-Generator/assets/image/chikorita.png";
+        portrait.src = "./assets/image/chikorita.png";
       }
     });
 
@@ -377,17 +377,17 @@
     themeselect.addEventListener('change', () => {
       const theme = themeselect.value;
       if (theme === "green") {
-        textboxframe.style.backgroundImage = "url('/PMD-Text-Box-Generator/assets/image/box.png')";
-        iconframe.style.backgroundImage = "url('/PMD-Text-Box-Generator/assets/image/iconbox.png')";
+        textboxframe.style.backgroundImage = "url('./assets/image/box.png')";
+        iconframe.style.backgroundImage = "url('./assets/image/iconbox.png')";
       } else {
-        textboxframe.style.backgroundImage = `url('/PMD-Text-Box-Generator/assets/image/${theme}/${theme}box.png')`;
-        iconframe.style.backgroundImage = `url('/PMD-Text-Box-Generator/assets/image/${theme}/${theme}icon.png')`;
+        textboxframe.style.backgroundImage = `url('./assets/image/${theme}/${theme}box.png')`;
+        iconframe.style.backgroundImage = `url('./assets/image/${theme}/${theme}icon.png')`;
       }
     });
 
     // Apply default 
-    textboxframe.style.backgroundImage = "url('/PMD-Text-Box-Generator/assets/image/blue/bluebox.png')";
-    iconframe.style.backgroundImage = "url('/PMD-Text-Box-Generator/assets/image/blue/blueicon.png')";
+    textboxframe.style.backgroundImage = "url('./assets/image/blue/bluebox.png')";
+    iconframe.style.backgroundImage = "url('./assets/image/blue/blueicon.png')";
   </script>
 </body>
 </html>
