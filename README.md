@@ -1,6 +1,6 @@
-# PMD-Text-Box-Generator
-My PMD Text Box Generator
-<br>
+# ❤️ Ignisiumz PMD-Text-Box-Generator ⭐
+PMD Text Box Generator hehe
+<br><br>
 Credits: <br>
 Spike Chunsoft - Image Assets, Pokemon, & Music <br>
 N0tHumqn - PMD: EoS Fonts <br>
