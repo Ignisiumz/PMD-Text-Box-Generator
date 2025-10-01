@@ -1,3 +1,11 @@
 *.png filter=lfs diff=lfs merge=lfs -text
 *.mp4 filter=lfs diff=lfs merge=lfs -text
 Assets/Background/Back.mp4 filter=lfs diff=lfs merge=lfs -text
+
+* text eol=lf
+* text=auto
+* text eol=lf
+*.png binary
+*.mp4 binary
+git rm --cached -r .
+git add -A
