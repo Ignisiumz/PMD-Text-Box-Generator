@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PMD: EoS Textbox Generator</title>
-  <link rel="icon" type="image/png" href="Assets/webicon.png"> 
+  <link rel="icon" type="image/png" href="assets/webicon.png"> 
   <style>
     @font-face {
       font-family: "PMDFont";
-      src: url("Assets/Fonts/pmd.otf") format("opentype");
+      src: url("assets/fonts/pmd.otf") format("opentype");
     }
 
     body {
@@ -24,7 +24,7 @@
       min-height: 100vh;
     }
 
-    #bgVideo {
+    #bgvideo {
       position: fixed;
       top: 0;
       left: 0;
@@ -49,7 +49,7 @@
       text-shadow: 2px 2px 2px black;
     }
 
-    #resultTitle {
+    #resulttitle {
       display: none;
       margin-top: 20px;
       font-size: 36px;
@@ -103,21 +103,21 @@
       font-family: "PMDFont", Arial, sans-serif;
     }
 
-    #previewRoot {
+    #previewroot {
       position: relative;
       width: 1154px;
       height: 253px;
       margin-top: 10px;
     }
 
-    #previewRoot.with-icon {
+    #previewroot.with-icon {
       height: 560px;
     }
 
     .textbox-frame {
       width: 1154px;
       height: 253px;
-      background-image: url('Assets/Image/Box.png');
+      background-image: url('assets/image/box.png');
       background-size: 100% 100%;
       position: absolute;
       bottom: 0;
@@ -184,7 +184,7 @@
       object-fit: cover;
     }
 
-    #finalImage {
+    #finalimage {
       margin-top: 10px;
       border: 2px solid #555;
       border-radius: 10px;
@@ -193,8 +193,8 @@
   </style>
 </head>
 <body>
-  <video autoplay loop muted playsinline id="bgVideo">
-    <source src="./Assets/Background/back.mp4" type="video/mp4">
+  <video autoplay loop muted playsinline id="bgvideo">
+    <source src="assets/background/back.mp4" type="video/mp4">
   </video>
 
   <h1>PMD: Explorers of Sky Textbox Generator</h1>
@@ -203,35 +203,35 @@
     <label for="talker">Name:</label>
     <input type="text" id="talker" placeholder="Speaker name (example: Chikorita)" value="Igglybuff">
 
-    <label for="talkerColor">Speaker Color:</label>
-    <input type="color" id="talkerColor" value="#FFFF00">
+    <label for="talkercolor">Speaker Color:</label>
+    <input type="color" id="talkercolor" value="#FFFF00">
 
-    <label for="textColor">Conversation Color:</label>
-    <input type="color" id="textColor" value="#FFFFFF">
+    <label for="textcolor">Conversation Color:</label>
+    <input type="color" id="textcolor" value="#FFFFFF">
 
     <label for="message">Dialog:</label>
     <textarea id="message" placeholder="Enter your PMD-style message...">I don't really understand... But it's really cool! ♪</textarea>
 
-    <label for="iconMode">Icon Mode:</label>
-    <select id="iconMode">
+    <label for="iconmode">Icon Mode:</label>
+    <select id="iconmode">
       <option value="with">With Icon</option>
       <option value="without" selected>Without Icon</option>
     </select>
 
-    <div id="portraitUploadWrapper" style="display:none;">
-      <label for="portraitUpload">Upload Portrait:</label>
-      <input type="file" id="portraitUpload" accept="image/*">
+    <div id="portraituploadwrapper" style="display:none;">
+      <label for="portraitupload">Upload Portrait:</label>
+      <input type="file" id="portraitupload" accept="image/*">
 
-      <label for="iconAlign">Icon Alignment:</label>
-      <select id="iconAlign">
+      <label for="iconalign">Icon Alignment:</label>
+      <select id="iconalign">
         <option value="left" selected>Left</option>
         <option value="center">Center</option>
         <option value="right">Right</option>
       </select>
     </div>
 
-    <label for="themeSelect">Select Theme:</label>
-    <select id="themeSelect">
+    <label for="themeselect">Select Theme:</label>
+    <select id="themeselect">
       <option value="blue" selected>Blue</option>
       <option value="green">Green</option>
       <option value="pink">Pink</option>
@@ -239,89 +239,89 @@
       <option value="yellow">Yellow</option>
     </select>
 
-    <button class="btn" id="musicBtn">♬ Play Music</button>
-    <button class="btn" id="previewBtn">▶ Generator</button>
-    <button class="btn" id="downloadBtn" style="display:none;">⬇️ Download PNG</button>
+    <button class="btn" id="musicbtn">♬ Play Music</button>
+    <button class="btn" id="previewbtn">▶ Generator</button>
+    <button class="btn" id="downloadbtn" style="display:none;">⬇️ Download PNG</button>
   </div>
 
-  <div id="previewRoot">
-    <div class="textbox-frame" id="textboxFrame">
-      <div class="textbox-content" id="textboxContent">
-        <div class="line" id="previewMessage"></div>
+  <div id="previewroot">
+    <div class="textbox-frame" id="textboxframe">
+      <div class="textbox-content" id="textboxcontent">
+        <div class="line" id="previewmessage"></div>
         <div class="triangle"></div>
       </div>
     </div>
-    <div class="icon-frame" id="iconFrame">
+    <div class="icon-frame" id="iconframe">
       <div class="icon-content">
-        <img id="portrait" src="Assets/Image/chikorita.png" alt="Portrait">
+        <img id="portrait" src="assets/image/chikorita.png" alt="Portrait">
       </div>
     </div>
   </div>
 
-  <div id="resultTitle">Result:</div>
-  <img id="finalImage" alt="Generated PMD Textbox" style="display:none;">
+  <div id="resulttitle">Result:</div>
+  <img id="finalimage" alt="Generated PMD Textbox" style="display:none;">
 
-  <audio id="bgMusic" src="Assets/Audio/music.mp3" loop></audio>
+  <audio id="bgmusic" src="assets/audio/music.mp3" loop></audio>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script>
     const message = document.getElementById('message');
-    const previewBtn = document.getElementById('previewBtn');
-    const previewMessage = document.getElementById('previewMessage');
-    const portraitUpload = document.getElementById('portraitUpload');
-    const portraitUploadWrapper = document.getElementById('portraitUploadWrapper');
+    const previewbtn = document.getElementById('previewbtn');
+    const previewmessage = document.getElementById('previewmessage');
+    const portraitupload = document.getElementById('portraitupload');
+    const portraituploadwrapper = document.getElementById('portraituploadwrapper');
     const portrait = document.getElementById('portrait');
-    const iconFrame = document.getElementById('iconFrame');
-    const iconMode = document.getElementById('iconMode');
-    const iconAlign = document.getElementById('iconAlign');
+    const iconframe = document.getElementById('iconframe');
+    const iconmode = document.getElementById('iconmode');
+    const iconalign = document.getElementById('iconalign');
     const talker = document.getElementById('talker');
-    const talkerColor = document.getElementById('talkerColor');
-    const textColor = document.getElementById('textColor');
-    const finalImage = document.getElementById('finalImage');
-    const bgMusic = document.getElementById('bgMusic');
-    const musicBtn = document.getElementById('musicBtn');
-    const previewRoot = document.getElementById('previewRoot');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const themeSelect = document.getElementById('themeSelect');
-    const textboxFrame = document.getElementById('textboxFrame');
-    const resultTitle = document.getElementById('resultTitle');
+    const talkercolor = document.getElementById('talkercolor');
+    const textcolor = document.getElementById('textcolor');
+    const finalimage = document.getElementById('finalimage');
+    const bgmusic = document.getElementById('bgmusic');
+    const musicbtn = document.getElementById('musicbtn');
+    const previewroot = document.getElementById('previewroot');
+    const downloadbtn = document.getElementById('downloadbtn');
+    const themeselect = document.getElementById('themeselect');
+    const textboxframe = document.getElementById('textboxframe');
+    const resulttitle = document.getElementById('resulttitle');
 
     let musicPlaying = false; 
 
     // Toggle portrait
-    iconMode.addEventListener('change', () => {
-      if (iconMode.value === "with") {
-        iconFrame.style.display = "block";
-        portraitUploadWrapper.style.display = "block";
-        previewRoot.classList.add("with-icon");
-        portrait.src = portrait.src || "Assets/Image/chikorita.png"; 
+    iconmode.addEventListener('change', () => {
+      if (iconmode.value === "with") {
+        iconframe.style.display = "block";
+        portraituploadwrapper.style.display = "block";
+        previewroot.classList.add("with-icon");
+        portrait.src = portrait.src || "assets/image/chikorita.png"; 
       } else {
-        iconFrame.style.display = "none";
-        portraitUploadWrapper.style.display = "none";
-        previewRoot.classList.remove("with-icon");
+        iconframe.style.display = "none";
+        portraituploadwrapper.style.display = "none";
+        previewroot.classList.remove("with-icon");
       }
     });
 
     // Icon alignment
-    iconAlign.addEventListener('change', () => {
-      const align = iconAlign.value;
+    iconalign.addEventListener('change', () => {
+      const align = iconalign.value;
       if (align === "left") {
-        iconFrame.style.left = "0";
-        iconFrame.style.right = "auto";
-        iconFrame.style.transform = "none";
+        iconframe.style.left = "0";
+        iconframe.style.right = "auto";
+        iconframe.style.transform = "none";
       } else if (align === "center") {
-        iconFrame.style.left = "50%";
-        iconFrame.style.right = "auto";
-        iconFrame.style.transform = "translateX(-50%)";
+        iconframe.style.left = "50%";
+        iconframe.style.right = "auto";
+        iconframe.style.transform = "translateX(-50%)";
       } else if (align === "right") {
-        iconFrame.style.left = "auto";
-        iconFrame.style.right = "0";
-        iconFrame.style.transform = "none";
+        iconframe.style.left = "auto";
+        iconframe.style.right = "0";
+        iconframe.style.transform = "none";
       }
     });
 
     // Load ICON
-    portraitUpload.addEventListener('change', (e) => {
+    portraitupload.addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
@@ -330,64 +330,64 @@
         };
         reader.readAsDataURL(file);
       } else {
-        portrait.src = "Assets/Image/chikorita.png";
+        portrait.src = "assets/image/chikorita.png";
       }
     });
 
     // Render text
     function renderStatic() {
-      previewMessage.innerHTML = 
-        `<span style="color:${talkerColor.value}; font-weight:normal;">${talker.value}</span>: ` +
-        `<span style="color:${textColor.value};">${message.value}</span>`;
+      previewmessage.innerHTML = 
+        `<span style="color:${talkercolor.value}; font-weight:normal;">${talker.value}</span>: ` +
+        `<span style="color:${textcolor.value};">${message.value}</span>`;
     }
 
     // Generate PNG
     async function generateImage() {
       renderStatic();
-      const canvas = await html2canvas(previewRoot, {scale: 2, backgroundColor: null});
-      finalImage.src = canvas.toDataURL("image/png");
-      finalImage.style.display = "block";
-      resultTitle.style.display = "block"; 
-      downloadBtn.style.display = "block";
+      const canvas = await html2canvas(previewroot, {scale: 2, backgroundColor: null});
+      finalimage.src = canvas.toDataURL("image/png");
+      finalimage.style.display = "block";
+      resulttitle.style.display = "block"; 
+      downloadbtn.style.display = "block";
     }
 
-    previewBtn.addEventListener('click', generateImage);
+    previewbtn.addEventListener('click', generateImage);
 
     // Download button
-    downloadBtn.addEventListener('click', () => {
+    downloadbtn.addEventListener('click', () => {
       const link = document.createElement('a');
       link.download = "textbox.png";
-      link.href = finalImage.src;
+      link.href = finalimage.src;
       link.click();
     });
 
     // Music Button
-    musicBtn.addEventListener('click', () => {
+    musicbtn.addEventListener('click', () => {
       if (musicPlaying) {
-        bgMusic.pause();
-        musicBtn.textContent = "♬ Play Music";
+        bgmusic.pause();
+        musicbtn.textContent = "♬ Play Music";
       } else {
-        bgMusic.play();
-        musicBtn.textContent = "⏸ Stop Music";
+        bgmusic.play();
+        musicbtn.textContent = "⏸ Stop Music";
       }
       musicPlaying = !musicPlaying;
     });
 
     // Theme switching
-    themeSelect.addEventListener('change', () => {
-      const theme = themeSelect.value;
+    themeselect.addEventListener('change', () => {
+      const theme = themeselect.value;
       if (theme === "green") {
-        textboxFrame.style.backgroundImage = "url('Assets/Image/Box.png')";
-        iconFrame.style.backgroundImage = "url('Assets/Image/IconBox.png')";
+        textboxframe.style.backgroundImage = "url('assets/image/box.png')";
+        iconframe.style.backgroundImage = "url('assets/image/iconbox.png')";
       } else {
-        textboxFrame.style.backgroundImage = `url('Assets/Image/${theme}/${theme}box.png')`;
-        iconFrame.style.backgroundImage = `url('Assets/Image/${theme}/${theme}icon.png')`;
+        textboxframe.style.backgroundImage = `url('assets/image/${theme}/${theme}box.png')`;
+        iconframe.style.backgroundImage = `url('assets/image/${theme}/${theme}icon.png')`;
       }
     });
 
     // Apply default 
-    textboxFrame.style.backgroundImage = "url('Assets/Image/blue/bluebox.png')";
-    iconFrame.style.backgroundImage = "url('Assets/Image/blue/blueicon.png')";
+    textboxframe.style.backgroundImage = "url('assets/image/blue/bluebox.png')";
+    iconframe.style.backgroundImage = "url('assets/image/blue/blueicon.png')";
   </script>
 </body>
 </html>
