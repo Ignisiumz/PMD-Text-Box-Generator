@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PMD: EoS Textbox Generator</title>
+  <link rel="icon" type="image/png" href="Assets/webicon.png"> 
+  <style>
+    @font-face {
+      font-family: "PMDFont";
+      src: url("Assets/Fonts/pmd.otf") format("opentype");
+    }
+
+    body {
+      font-family: "PMDFont", Arial, sans-serif;
+      color: rgb(255, 255, 255);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+    }
+
+    #bgVideo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    h1 { 
+      margin-bottom: 10px; 
+      font-size: 48px;
+      font-weight: bold;
+      text-align: center;
+      position: relative;
+      color: black;
+      -webkit-text-fill-color: transparent;
+      background: linear-gradient(270deg, red, orange, yellow, green, cyan, blue, violet, red);
+      background-size: 1400% 1400%;
+      -webkit-background-clip: text;
+      animation: rainbow 10s ease infinite;
+      text-shadow: 2px 2px 2px black;
+    }
+
+    #resultTitle {
+      display: none;
+      margin-top: 20px;
+      font-size: 36px;
+      font-weight: bold;
+      color: black;
+      -webkit-text-fill-color: transparent;
+      background: linear-gradient(270deg, red, orange, yellow, green, cyan, blue, violet, red);
+      background-size: 1400% 1400%;
+      -webkit-background-clip: text;
+      animation: rainbow 10s ease infinite;
+      text-shadow: 2px 2px 2px black;
+    }
+
+    @keyframes rainbow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .controls {
+      background: rgba(44,44,44,0.8);
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 320px;
+    }
+
+    textarea, input[type="text"], select {
+      width: 95%;
+      border-radius: 6px;
+      border: none;
+      padding: 8px;
+      font-size: 1rem;
+      outline: none;
+      font-family: "PMDFont", Arial, sans-serif;
+    }
+
+    textarea { height: 100px; resize: none; }
+
+    .btn {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      font-family: "PMDFont", Arial, sans-serif;
+    }
+
+    #previewRoot {
+      position: relative;
+      width: 1154px;
+      height: 253px;
+      margin-top: 10px;
+    }
+
+    #previewRoot.with-icon {
+      height: 560px;
+    }
+
+    .textbox-frame {
+      width: 1154px;
+      height: 253px;
+      background-image: url('Assets/Image/Box.png');
+      background-size: 100% 100%;
+      position: absolute;
+      bottom: 0;
+    }
+
+    .textbox-content {
+      position: absolute;
+      left: 50px;
+      right: 50px;
+      top: 35px;
+      bottom: 35px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .line {
+      font-size: 36px;
+      line-height: 1.3;
+      font-family: "PMDFont", Arial, sans-serif;
+      color: white;
+      display: inline;
+      word-wrap: break-word;
+    }
+
+    .triangle {
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 10px solid white;
+      margin: 6px auto 0 auto;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0% { opacity: 0; }
+      50% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    .icon-frame {
+      position: absolute;
+      bottom: 300px;
+      width: 222px;
+      height: 222px;
+      background-size: 100% 100%;
+      display: none;
+    }
+
+    .icon-content {
+      width: 198px;
+      height: 198px;
+      margin: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .icon-content img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: cover;
+    }
+
+    #finalImage {
+      margin-top: 10px;
+      border: 2px solid #555;
+      border-radius: 10px;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <video autoplay loop muted playsinline id="bgVideo">
+    <source src="Assets/Background/Back.mp4" type="video/mp4">
+  </video>
+
+  <h1>PMD: Explorers of Sky Textbox Generator</h1>
+
+  <div class="controls">
+    <label for="talker">Name:</label>
+    <input type="text" id="talker" placeholder="Speaker name (example: Chikorita)" value="Igglybuff">
+
+    <label for="talkerColor">Speaker Color:</label>
+    <input type="color" id="talkerColor" value="#FFFF00">
+
+    <label for="textColor">Conversation Color:</label>
+    <input type="color" id="textColor" value="#FFFFFF">
+
+    <label for="message">Dialog:</label>
+    <textarea id="message" placeholder="Enter your PMD-style message...">I don't really understand... But it's really cool! ♪</textarea>
+
+    <label for="iconMode">Icon Mode:</label>
+    <select id="iconMode">
+      <option value="with">With Icon</option>
+      <option value="without" selected>Without Icon</option>
+    </select>
+
+    <div id="portraitUploadWrapper" style="display:none;">
+      <label for="portraitUpload">Upload Portrait:</label>
+      <input type="file" id="portraitUpload" accept="image/*">
+
+      <label for="iconAlign">Icon Alignment:</label>
+      <select id="iconAlign">
+        <option value="left" selected>Left</option>
+        <option value="center">Center</option>
+        <option value="right">Right</option>
+      </select>
+    </div>
+
+    <label for="themeSelect">Select Theme:</label>
+    <select id="themeSelect">
+      <option value="blue" selected>Blue</option>
+      <option value="green">Green</option>
+      <option value="pink">Pink</option>
+      <option value="red">Red</option>
+      <option value="yellow">Yellow</option>
+    </select>
+
+    <button class="btn" id="musicBtn">♬ Play Music</button>
+    <button class="btn" id="previewBtn">▶ Generator</button>
+    <button class="btn" id="downloadBtn" style="display:none;">⬇️ Download PNG</button>
+  </div>
+
+  <div id="previewRoot">
+    <div class="textbox-frame" id="textboxFrame">
+      <div class="textbox-content" id="textboxContent">
+        <div class="line" id="previewMessage"></div>
+        <div class="triangle"></div>
+      </div>
+    </div>
+    <div class="icon-frame" id="iconFrame">
+      <div class="icon-content">
+        <img id="portrait" src="Assets/Image/chikorita.png" alt="Portrait">
+      </div>
+    </div>
+  </div>
+
+  <div id="resultTitle">Result:</div>
+  <img id="finalImage" alt="Generated PMD Textbox" style="display:none;">
+
+  <audio id="bgMusic" src="Assets/Audio/music.mp3" loop></audio>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+    const message = document.getElementById('message');
+    const previewBtn = document.getElementById('previewBtn');
+    const previewMessage = document.getElementById('previewMessage');
+    const portraitUpload = document.getElementById('portraitUpload');
+    const portraitUploadWrapper = document.getElementById('portraitUploadWrapper');
+    const portrait = document.getElementById('portrait');
+    const iconFrame = document.getElementById('iconFrame');
+    const iconMode = document.getElementById('iconMode');
+    const iconAlign = document.getElementById('iconAlign');
+    const talker = document.getElementById('talker');
+    const talkerColor = document.getElementById('talkerColor');
+    const textColor = document.getElementById('textColor');
+    const finalImage = document.getElementById('finalImage');
+    const bgMusic = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    const previewRoot = document.getElementById('previewRoot');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const themeSelect = document.getElementById('themeSelect');
+    const textboxFrame = document.getElementById('textboxFrame');
+    const resultTitle = document.getElementById('resultTitle');
+
+    let musicPlaying = false; 
+
+    // Toggle portrait
+    iconMode.addEventListener('change', () => {
+      if (iconMode.value === "with") {
+        iconFrame.style.display = "block";
+        portraitUploadWrapper.style.display = "block";
+        previewRoot.classList.add("with-icon");
+        portrait.src = portrait.src || "Assets/Image/chikorita.png"; 
+      } else {
+        iconFrame.style.display = "none";
+        portraitUploadWrapper.style.display = "none";
+        previewRoot.classList.remove("with-icon");
+      }
+    });
+
+    // Icon alignment
+    iconAlign.addEventListener('change', () => {
+      const align = iconAlign.value;
+      if (align === "left") {
+        iconFrame.style.left = "0";
+        iconFrame.style.right = "auto";
+        iconFrame.style.transform = "none";
+      } else if (align === "center") {
+        iconFrame.style.left = "50%";
+        iconFrame.style.right = "auto";
+        iconFrame.style.transform = "translateX(-50%)";
+      } else if (align === "right") {
+        iconFrame.style.left = "auto";
+        iconFrame.style.right = "0";
+        iconFrame.style.transform = "none";
+      }
+    });
+
+    // Load ICON
+    portraitUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          portrait.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        portrait.src = "Assets/Image/chikorita.png";
+      }
+    });
+
+    // Render text
+    function renderStatic() {
+      previewMessage.innerHTML = 
+        `<span style="color:${talkerColor.value}; font-weight:normal;">${talker.value}</span>: ` +
+        `<span style="color:${textColor.value};">${message.value}</span>`;
+    }
+
+    // Generate PNG
+    async function generateImage() {
+      renderStatic();
+      const canvas = await html2canvas(previewRoot, {scale: 2, backgroundColor: null});
+      finalImage.src = canvas.toDataURL("image/png");
+      finalImage.style.display = "block";
+      resultTitle.style.display = "block"; 
+      downloadBtn.style.display = "block";
+    }
+
+    previewBtn.addEventListener('click', generateImage);
+
+    // Download button
+    downloadBtn.addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.download = "textbox.png";
+      link.href = finalImage.src;
+      link.click();
+    });
+
+    // Music Button
+    musicBtn.addEventListener('click', () => {
+      if (musicPlaying) {
+        bgMusic.pause();
+        musicBtn.textContent = "♬ Play Music";
+      } else {
+        bgMusic.play();
+        musicBtn.textContent = "⏸ Stop Music";
+      }
+      musicPlaying = !musicPlaying;
+    });
+
+    // Theme switching
+    themeSelect.addEventListener('change', () => {
+      const theme = themeSelect.value;
+      if (theme === "green") {
+        textboxFrame.style.backgroundImage = "url('Assets/Image/Box.png')";
+        iconFrame.style.backgroundImage = "url('Assets/Image/IconBox.png')";
+      } else {
+        textboxFrame.style.backgroundImage = `url('Assets/Image/${theme}/${theme}box.png')`;
+        iconFrame.style.backgroundImage = `url('Assets/Image/${theme}/${theme}icon.png')`;
+      }
+    });
+
+    // Apply default 
+    textboxFrame.style.backgroundImage = "url('Assets/Image/blue/bluebox.png')";
+    iconFrame.style.backgroundImage = "url('Assets/Image/blue/blueicon.png')";
+  </script>
+</body>
+</html>
