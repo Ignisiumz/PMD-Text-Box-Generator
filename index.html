@@ -201,7 +201,7 @@
 
   <div class="controls">
     <label for="talker">Name:</label>
-    <input type="text" id="talker" placeholder="Speaker name (example: Chikorita)" value="Igglybuff">
+    <input type="text" id="talker" placeholder="Speaker name (example: Chikorita)" value="Chikorita">
 
     <label for="talkercolor">Speaker Color:</label>
     <input type="color" id="talkercolor" value="#FFFF00">
@@ -212,10 +212,10 @@
     <label for="message">Dialog:</label>
     <textarea id="message" placeholder="Enter your PMD-style message...">I don't really understand... But it's really cool! ♪</textarea>
 
-    <label for="iconmode">Icon Mode:</label>
+    <label for="iconmode">Icon:</label>
     <select id="iconmode">
-      <option value="with">With Icon</option>
-      <option value="without" selected>Without Icon</option>
+      <option value="with">Yes</option>
+      <option value="without" selected>No</option>
     </select>
 
     <div id="portraituploadwrapper" style="display:none;">
@@ -253,7 +253,7 @@
     </div>
     <div class="icon-frame" id="iconframe">
       <div class="icon-content">
-        <img id="portrait" src="assets/image/chikorita3.PNG" alt="Portrait">
+        <img id="portrait" src="assets/image/chikorita.png" alt="Portrait">
       </div>
     </div>
   </div>
@@ -294,7 +294,7 @@
         iconframe.style.display = "block";
         portraituploadwrapper.style.display = "block";
         previewroot.classList.add("with-icon");
-        portrait.src = portrait.src || "assets/image/chikorita3.PNG"; 
+        portrait.src = portrait.src || "assets/image/chikorita.png"; 
       } else {
         iconframe.style.display = "none";
         portraituploadwrapper.style.display = "none";
@@ -330,7 +330,7 @@
         };
         reader.readAsDataURL(file);
       } else {
-        portrait.src = "assets/image/chikorita3.PNG";
+        portrait.src = "assets/image/chikorita.png";
       }
     });
 
@@ -386,8 +386,8 @@
     });
 
     // Apply default 
-    textboxframe.style.backgroundImage = "url('/assets/image/blue/bluebox.png')";
-    iconframe.style.backgroundImage = "url('/assets/image/blue/blueicon.png')";
+    textboxframe.style.backgroundImage = "url('assets/image/blue/bluebox.png')";
+    iconframe.style.backgroundImage = "url('assets/image/blue/blueicon.png')";
   </script>
 </body>
 </html>
