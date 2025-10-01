@@ -239,7 +239,7 @@
       <option value="yellow">Yellow</option>
     </select>
 
-    <button class="btn" id="musicbtn">⏸ Stop Music</button>
+    <button class="btn" id="musicbtn">♬ Play Music</button>
     <button class="btn" id="previewbtn">▶ Create</button>
     <button class="btn" id="downloadbtn" style="display:none;">Download PNG</button>
   </div>
@@ -261,7 +261,7 @@
   <div id="resulttitle">Result:</div>
   <img id="finalimage" alt="Generated PMD Textbox" style="display:none;">
 
-  <audio id="bgmusic" src="assets/audio/music.mp3" loop autoplay></audio>
+  <audio id="bgmusic" src="assets/audio/music.mp3" loop></audio>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script>
@@ -286,12 +286,7 @@
     const textboxframe = document.getElementById('textboxframe');
     const resulttitle = document.getElementById('resulttitle');
 
-    let musicPlaying = true; // Music auto-starts
-
-    // Auto-play music
-    window.addEventListener('load', () => {
-      bgmusic.play().catch(e => console.log("Autoplay blocked:", e));
-    });
+    let musicPlaying = false; // Music is OFF by default
 
     // Toggle portrait
     iconmode.addEventListener('change', () => {
@@ -334,7 +329,6 @@
       reader.onload = () => {
         const img = new Image();
         img.onload = () => {
-          // Resize if smaller than 198x198
           const minSize = 198;
           if (img.width < minSize || img.height < minSize) {
             const canvas = document.createElement('canvas');
@@ -404,7 +398,7 @@
       }
     });
 
-    // Apply default 
+    // Apply default theme
     textboxframe.style.backgroundImage = "url('assets/image/blue/bluebox.png')";
     iconframe.style.backgroundImage = "url('assets/image/blue/blueicon.png')";
   </script>
