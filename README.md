@@ -4,5 +4,5 @@ PMD Text Box Generator hehe
 Credits: <br>
 Spike Chunsoft - Image Assets, Pokemon, & Music <br>
 N0tHumqn - PMD: EoS Fonts <br>
-DyllonStejGaming - Welcome to the Pokemon World Background Wave
-Ignisiumz (Me) - Time Gear Pixel Art, Dialog Box, and scripts.
+DyllonStejGaming - Welcome to the Pokemon World Background Wave <br>
+Ignisiumz (Me) - Time Gear Pixel Art, Dialog Box, and HTML Script.
