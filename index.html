@@ -5,231 +5,326 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PMD Textbox Generator</title>
   <link rel="icon" type="image/png" href="assets/webicon.png"> 
-  <style>
-    @font-face {
-      font-family: "PMDFont";
-      src: url("assets/fonts/pmd.otf") format("opentype");
-    }
+<style>
+  @font-face {
+    font-family: "PMDFont";
+    src: url("assets/fonts/pmd.otf") format("opentype");
+  }
 
-    body {
-      font-family: "PMDFont", Arial, sans-serif;
-      color: rgb(255, 255, 255);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 20px;
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-    }
+  body {
+    font-family: "PMDFont", Arial, sans-serif;
+    color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden; /* prevent horizontal scroll */
+  }
 
-    #bgvideo {
-      position: fixed;
-      top: 0;
-      left: 0;
-      min-width: 100%;
-      min-height: 100%;
-      object-fit: cover;
-      z-index: -1;
-      display: block;
-    }
+  #bgvideo, #bgimage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
 
-    #bgimage {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-      display: none;
-    }
+  #bgvideo { display: block; }
+  #bgimage { display: none; }
 
-    h1 { 
-      margin-bottom: 10px; 
-      font-size: 48px;
-      font-weight: bold;
-      text-align: center;
-      position: relative;
-      color: black;
-      -webkit-text-fill-color: transparent;
-      background: linear-gradient(270deg, red, orange, yellow, green, cyan, blue, violet, red);
-      background-size: 1400% 1400%;
-      -webkit-background-clip: text;
-      animation: rainbow 10s ease infinite;
-      text-shadow: 5px 2px 2px rgb(0, 0, 0);
-    }
+h1 { 
+  margin-bottom: 10px; 
+  font-size: clamp(24px, 6vw, 48px);
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  color: rgb(243, 255, 76); /* Yellow */
+  
+  /* Black outline */
+  text-shadow: 
+    -2px -2px 0 black,  
+     2px -2px 0 black,
+    -2px  2px 0 black,
+     2px  2px 0 black,
 
-    #resulttitle {
-      display: none;
-      margin-top: 20px;
-      font-size: 36px;
-      font-weight: bold;
-      color: black;
-      -webkit-text-fill-color: transparent;
-      background: linear-gradient(270deg, red, orange, yellow, green, cyan, blue, violet, red);
-      background-size: 1400% 1400%;
-      -webkit-background-clip: text;
-      animation: rainbow 10s ease infinite;
-       text-shadow: 5px 2px 2px rgb(0, 0, 0);
-    }
+    
+    0 0 10px red,
+    0 0 20px orange,
+    0 0 30px yellow,
+    0 0 40px green,
+    0 0 50px blue,
+    0 0 60px indigo,
+    0 0 70px violet;
 
-    @keyframes rainbow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+  animation: rainbowAura 5s linear infinite;
+}
+
+
+@keyframes rainbowAura {
+  0%   { text-shadow: 
+            -2px -2px 0 black,  
+             2px -2px 0 black,
+            -2px  2px 0 black,
+             2px  2px 0 black,
+             0 0 10px red, 0 0 20px orange, 0 0 30px yellow, 0 0 40px green; }
+  50%  { text-shadow: 
+            -2px -2px 0 black,  
+             2px -2px 0 black,
+            -2px  2px 0 black,
+             2px  2px 0 black,
+             0 0 10px blue, 0 0 20px indigo, 0 0 30px violet, 0 0 40px red; }
+  100% { text-shadow: 
+            -2px -2px 0 black,  
+             2px -2px 0 black,
+            -2px  2px 0 black,
+             2px  2px 0 black,
+             0 0 10px orange, 0 0 20px yellow, 0 0 30px green, 0 0 40px blue; }
+}
+
+
+h2 {
+  color: white; /* text color */
+  font-size: clamp(18px, 4vw, 32px);
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 
+    -2px -2px 0 black,  
+     2px -2px 0 black,
+    -2px  2px 0 black,
+     2px  2px 0 black; /* outline effect */
+}
+
+
+  #resulttitle {
+    display: none;
+    margin-top: 20px;
+    font-size: clamp(20px, 5vw, 36px);
+    font-weight: bold;
+    color: black;
+    -webkit-text-fill-color: transparent;
+    background: linear-gradient(270deg, red, orange, yellow, green, cyan, blue, violet, red);
+    background-size: 1400% 1400%;
+    -webkit-background-clip: text;
+    animation: rainbow 10s ease infinite;
+    text-shadow: 2px 1px 1px rgb(0, 0, 0);
+  }
+
+  @keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .controls {
+    background: rgba(44,44,44,0.8);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+  }
+
+  textarea, input[type="text"], select {
+    width: 95%;
+    border-radius: 6px;
+    border: none;
+    padding: 8px;
+    font-size: 1rem;
+    outline: none;
+    font-family: "PMDFont", Arial, sans-serif;
+  }
+
+  textarea { height: 100px; width: 95%; resize: none; }
+
+  .btn {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: "PMDFont", Arial, sans-serif;
+  }
+
+  /* Responsive previewroot */
+  #previewroot {
+    position: relative;
+    width: 100%;
+    max-width: 1154px;
+    aspect-ratio: 1154 / 253; /* keep original ratio */
+    margin-top: 10px;
+  }
+
+  #previewroot.with-icon {
+    aspect-ratio: 1154 / 560; /* taller ratio with icon */
+  }
+
+  .textbox-frame {
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/image/box.png');
+    background-size: 100% 100%;
+    position: absolute;
+    bottom: 0;
+  }
+
+#previewroot.with-icon .textbox-frame {
+  top: 55%;   /* push it down */
+  bottom: auto; /* cancel bottom alignment */
+   height: 45%;  
+}
+
+
+  .textbox-content {
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    top: 13%;
+    bottom: 13%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .line {
+    font-size: clamp(16px, 3vw, 36px);
+    line-height: 1.3;
+    font-family: "PMDFont", Arial, sans-serif;
+    color: white;
+    display: inline;
+    word-wrap: break-word;
+  }
+
+  .triangle {
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 12px solid white;
+    margin: 6px auto 0 auto;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  .icon-frame {
+    position: absolute;
+    bottom: 60%;
+    width: 20%;
+    max-width: 222px;
+    aspect-ratio: 1/1;
+    background-size: 100% 100%;
+      margin-top: 200px; /* pushes textbox down */
+    display: none;
+  }
+
+  .icon-content {
+    width: 90%;
+    height: 90%;
+    margin: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .icon-content img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  #finalimage {
+    margin-top: 10px;
+    border: 2px solid #555;
+    border-radius: 10px;
+    max-width: 100%;
+  }
+
+  #settings-timegear {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 90px;
+    height: 90px;
+    background: url('assets/image/timegear.png') no-repeat center center;
+    background-size: contain;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  #background-options {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    background: rgba(0,0,0,0.8);
+    padding: 10px;
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 10;
+    max-width: 90vw;
+    box-sizing: border-box;
+  }
+
+  #background-options label { color: white; }
+
+  /* Mobile tweaks */
+  @media (max-width: 768px) {
+    #settings-timegear {
+      width: 50px;
+      height: 50px;
+      bottom: 15px;
+      right: 15px;
     }
 
     .controls {
-      background: rgba(44,44,44,0.8);
-      padding: 10px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      width: 320px;
+      max-width: 95vw;
     }
+  }
 
-    textarea, input[type="text"], select {
-      width: 95%;
-      border-radius: 6px;
-      border: none;
-      padding: 8px;
-      font-size: 1rem;
-      outline: none;
-      font-family: "PMDFont", Arial, sans-serif;
-    }
+@media (max-width: 480px) {
+  .textbox-content .line {
+    font-size: clamp(1px, 4vw, 20px);
+  }
+}
 
-    textarea { height: 100px; resize: none; }
-
-    .btn {
-      background: #3b82f6;
-      color: white;
-      border: none;
-      padding: 8px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      font-family: "PMDFont", Arial, sans-serif;
-    }
-
-    #previewroot {
-      position: relative;
-      width: 1154px;
-      height: 253px;
-      margin-top: 10px;
-    }
-
-    #previewroot.with-icon {
-      height: 560px;
-    }
-
-    .textbox-frame {
-      width: 1154px;
-      height: 253px;
-      background-image: url('assets/image/box.png');
-      background-size: 100% 100%;
-      position: absolute;
-      bottom: 0;
-    }
-
-    .textbox-content {
-      position: absolute;
-      left: 50px;
-      right: 50px;
-      top: 35px;
-      bottom: 35px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .line {
-      font-size: 36px;
-      line-height: 1.3;
-      font-family: "PMDFont", Arial, sans-serif;
-      color: white;
-      display: inline;
-      word-wrap: break-word;
-    }
-
-    .triangle {
-      width: 0;
-      height: 0;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-top: 10px solid white;
-      margin: 6px auto 0 auto;
-      animation: blink 1s infinite;
-    }
-
-    @keyframes blink {
-      0% { opacity: 0; }
-      50% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-
-    .icon-frame {
-      position: absolute;
-      bottom: 300px;
-      width: 222px;
-      height: 222px;
-      background-size: 100% 100%;
-      display: none;
-    }
-
-    .icon-content {
-      width: 198px;
-      height: 198px;
-      margin: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .icon-content img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-
-    #finalimage {
-      margin-top: 10px;
-      border: 2px solid #555;
-      border-radius: 10px;
-      max-width: 100%;
+  @media (max-width: 480px) {
+    h1 {
+      font-size: clamp(20px, 7vw, 32px);
     }
 
     #settings-timegear {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 80px;
-      height: 80px;
-      background: url('assets/image/timegear.png') no-repeat center center;
-      background-size: contain;
-      cursor: pointer;
-      z-index: 10;
+      width: 45px;
+      height: 45px;
+      bottom: 10px;
+      right: 10px;
     }
 
     #background-options {
-      position: fixed;
-      bottom: 100px;
-      right: 20px;
-      background: rgba(0,0,0,0.8);
-      padding: 10px;
-      border-radius: 10px;
-      display: none;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 10;
+      right: 10px;
+      bottom: 70px;
     }
+  }
+</style>
 
-    #background-options label { color: white; }
-  </style>
 </head>
 <body>
 
@@ -240,7 +335,7 @@
   <img id="bgimage" src="" alt="Background">
 
   <h1>Pokemon Mystery Dungeon Textbox Generator</h1>
-
+<h2>Click the Time Gear on bottom right to change background!</h2>
   <div class="controls">
     <label for="talker">Name:</label>
     <input type="text" id="talker" placeholder="Speaker name" value="Chikorita">
