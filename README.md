@@ -5,4 +5,4 @@ Credits: <br>
 Spike Chunsoft - Image Assets, Pokemon, & Music <br>
 N0tHumqn - PMD: EoS Fonts <br>
 DyllonStejGaming - Welcome to the Pokemon World Background Wave <br>
-Ignisiumz (Me) - Time Gear Pixel Art, Dialog Box, and HTML Script.
+Ignisiumz (Me) - Time Gear Pixel Art, Dialog Box, and inline HTML Script.
