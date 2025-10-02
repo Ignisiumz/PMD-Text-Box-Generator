@@ -1,5 +1,5 @@
 # ❤️ Ignisiumz PMD-Text-Box-Generator ⭐
-PMD Text Box Generator that was made fully with inline html hehe, i hope you enjoy the textbox generator hehe.
+PMD Text Box Generator that was made fully with html hehe, i hope you enjoy the textbox generator hehe.
 <br><br>
 
 ## Web: <br>
