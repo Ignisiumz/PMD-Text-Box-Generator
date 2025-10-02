@@ -32,6 +32,18 @@
       min-height: 100%;
       object-fit: cover;
       z-index: -1;
+      display: block;
+    }
+
+    #bgimage {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      display: none;
     }
 
     h1 { 
@@ -46,7 +58,7 @@
       background-size: 1400% 1400%;
       -webkit-background-clip: text;
       animation: rainbow 10s ease infinite;
-      text-shadow: 2px 2px 2px black;
+      text-shadow: 5px 2px 2px rgb(0, 0, 0);
     }
 
     #resulttitle {
@@ -60,7 +72,7 @@
       background-size: 1400% 1400%;
       -webkit-background-clip: text;
       animation: rainbow 10s ease infinite;
-      text-shadow: 2px 2px 2px black;
+       text-shadow: 5px 2px 2px rgb(0, 0, 0);
     }
 
     @keyframes rainbow {
@@ -190,18 +202,50 @@
       border-radius: 10px;
       max-width: 100%;
     }
+
+    #settings-timegear {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 80px;
+      height: 80px;
+      background: url('assets/image/timegear.png') no-repeat center center;
+      background-size: contain;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    #background-options {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      background: rgba(0,0,0,0.8);
+      padding: 10px;
+      border-radius: 10px;
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    #background-options label { color: white; }
   </style>
 </head>
 <body>
+
   <video autoplay loop muted playsinline id="bgvideo">
     <source src="assets/background/back.mp4" type="video/mp4">
   </video>
 
-  <h1>PMD: Explorers of Sky Textbox Generator</h1>
+  <img id="bgimage" src="" alt="Background">
+
+  <h1>Pokemon Mystery Dungeon Textbox Generator</h1>
 
   <div class="controls">
     <label for="talker">Name:</label>
-    <input type="text" id="talker" placeholder="Speaker name (example: Chikorita)" value="Chikorita">
+    <input type="text" id="talker" placeholder="Speaker name" value="Chikorita">
+
+    <label><input type="checkbox" id="hidename"> Hide Name</label>
 
     <label for="talkercolor">Speaker Color:</label>
     <input type="color" id="talkercolor" value="#FFFF00">
@@ -210,7 +254,7 @@
     <input type="color" id="textcolor" value="#FFFFFF">
 
     <label for="message">Dialog:</label>
-    <textarea id="message" placeholder="Enter your PMD-style message...">I don't really understand... But it's really cool! ♪</textarea>
+    <textarea id="message">I don't really understand... But it's really cool! ♪</textarea>
 
     <label for="iconmode">Icon:</label>
     <select id="iconmode">
@@ -221,7 +265,7 @@
     <div id="portraituploadwrapper" style="display:none;">
       <label for="portraitupload">Upload Portrait:</label>
       <input type="file" id="portraitupload" accept="image/*">
-<br><br>
+      <br><br>
       <label for="iconalign">Icon Alignment:</label>
       <select id="iconalign">
         <option value="left" selected>Left</option>
@@ -239,9 +283,13 @@
       <option value="yellow">Yellow</option>
     </select>
 
+    <label for="volumecontrol">Music Volume:</label>
+    <input type="range" id="volumecontrol" min="0" max="1" step="0.01" value="0.5">
+
     <button class="btn" id="musicbtn">♬ Play Music</button>
     <button class="btn" id="previewbtn">▶ Create</button>
     <button class="btn" id="downloadbtn" style="display:none;">Download PNG</button>
+    <button class="btn" id="copybtn" style="display:none;">Copy to Clipboard</button>
   </div>
 
   <div id="previewroot">
@@ -260,6 +308,16 @@
 
   <div id="resulttitle">Result:</div>
   <img id="finalimage" alt="Generated PMD Textbox" style="display:none;">
+
+  <div id="settings-timegear"></div>
+  <div id="background-options">
+    <button class="btn" id="bgdefault">Personality Wave</button>
+    <button class="btn" id="bgwiggly">Wigglytuff's Guild</button>
+    <button class="btn" id="bgbeach">Beach at Dusk</button>
+    <button class="btn" id="bgsympathy">Sympathy & Sincerity</button>
+    <button class="btn" id="bgschool">The Way Home</button>
+    <button class="btn" id="bgrescue">Rescue Team</button>
+  </div>
 
   <audio id="bgmusic" src="assets/audio/music.mp3" loop></audio>
 
@@ -282,13 +340,31 @@
     const musicbtn = document.getElementById('musicbtn');
     const previewroot = document.getElementById('previewroot');
     const downloadbtn = document.getElementById('downloadbtn');
+    const copybtn = document.getElementById('copybtn');
     const themeselect = document.getElementById('themeselect');
     const textboxframe = document.getElementById('textboxframe');
     const resulttitle = document.getElementById('resulttitle');
+    const hidename = document.getElementById('hidename');
+    const volumecontrol = document.getElementById('volumecontrol');
 
-    let musicPlaying = false; // Music is OFF by default
+    bgmusic.volume = 0.5;
+    volumecontrol.value = 0.5;
+    
+    const settingstimegear = document.getElementById('settings-timegear');
+    const bgOptions = document.getElementById('background-options');
+    const bgvideo = document.getElementById('bgvideo');
+    const bgimage = document.getElementById('bgimage');
 
-    // Toggle portrait
+    // Background buttons
+    const bgdefault = document.getElementById('bgdefault');
+    const bgwiggly = document.getElementById('bgwiggly');
+    const bgbeach = document.getElementById('bgbeach');
+    const bgsympathy = document.getElementById('bgsympathy');
+    const bgschool = document.getElementById('bgschool');
+    const bgrescue = document.getElementById('bgrescue');
+
+    let musicPlaying = false;
+
     iconmode.addEventListener('change', () => {
       if (iconmode.value === "with") {
         iconframe.style.display = "block";
@@ -302,7 +378,6 @@
       }
     });
 
-    // Icon alignment
     iconalign.addEventListener('change', () => {
       const align = iconalign.value;
       if (align === "left") {
@@ -320,11 +395,9 @@
       }
     });
 
-    // Load ICON and resize if too small
     portraitupload.addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (!file) return;
-
       const reader = new FileReader();
       reader.onload = () => {
         const img = new Image();
@@ -347,14 +420,12 @@
       reader.readAsDataURL(file);
     });
 
-    // Render text
     function renderStatic() {
       previewmessage.innerHTML = 
-        `<span style="color:${talkercolor.value}; font-weight:normal;">${talker.value}</span>: ` +
+        `${hidename.checked ? '' : `<span style="color:${talkercolor.value};">${talker.value}</span>: `}` +
         `<span style="color:${textcolor.value};">${message.value}</span>`;
     }
 
-    // Generate PNG
     async function generateImage() {
       renderStatic();
       const canvas = await html2canvas(previewroot, {scale: 2, backgroundColor: null});
@@ -362,11 +433,11 @@
       finalimage.style.display = "block";
       resulttitle.style.display = "block"; 
       downloadbtn.style.display = "block";
+      copybtn.style.display = "block";
     }
 
     previewbtn.addEventListener('click', generateImage);
 
-    // Download button
     downloadbtn.addEventListener('click', () => {
       const link = document.createElement('a');
       link.download = "textbox.png";
@@ -374,7 +445,13 @@
       link.click();
     });
 
-    // Music Button
+    copybtn.addEventListener('click', async () => {
+      const data = await fetch(finalimage.src);
+      const blob = await data.blob();
+      await navigator.clipboard.write([new ClipboardItem({'image/png': blob})]);
+      alert('Copied to clipboard!');
+    });
+
     musicbtn.addEventListener('click', () => {
       if (musicPlaying) {
         bgmusic.pause();
@@ -386,7 +463,10 @@
       musicPlaying = !musicPlaying;
     });
 
-    // Theme switching
+    volumecontrol.addEventListener('input', () => {
+      bgmusic.volume = volumecontrol.value;
+    });
+
     themeselect.addEventListener('change', () => {
       const theme = themeselect.value;
       if (theme === "green") {
@@ -398,7 +478,56 @@
       }
     });
 
-    // Apply default theme
+    settingstimegear.addEventListener('click', () => {
+      bgOptions.style.display = bgOptions.style.display === "flex" ? "none" : "flex";
+    });
+
+    // Background switch functions
+    function switchToVideo(videoSrc, musicSrc) {
+      bgvideo.style.display = "block";
+      bgimage.style.display = "none";
+      bgvideo.src = videoSrc;
+      bgmusic.src = musicSrc;
+      bgmusic.play();
+      musicPlaying = true;
+      musicbtn.textContent = "⏸ Stop Music";
+    }
+
+    function switchToImage(imageSrc, musicSrc) {
+      bgvideo.style.display = "none";
+      bgimage.style.display = "block";
+      bgimage.src = imageSrc;
+      bgmusic.src = musicSrc;
+      bgmusic.play();
+      musicPlaying = true;
+      musicbtn.textContent = "⏸ Stop Music";
+    }
+
+    bgdefault.addEventListener('click', () => {
+      switchToVideo("assets/background/back.mp4", "assets/audio/music.mp3");
+    });
+
+    bgwiggly.addEventListener('click', () => {
+      switchToImage("assets/background/wigglyguild.png", "assets/audio/wigglytuff.mp3");
+    });
+
+    bgbeach.addEventListener('click', () => {
+      switchToImage("assets/background/beach.png", "assets/audio/beach.mp3");
+    });
+
+    bgsympathy.addEventListener('click', () => {
+      switchToImage("assets/background/sympathy.png", "assets/audio/sympathy.mp3");
+    });
+
+    bgschool.addEventListener('click', () => {
+      switchToImage("assets/background/school.png", "assets/audio/school.mp3");
+    });
+
+    bgrescue.addEventListener('click', () => {
+      switchToImage("assets/background/rescue.png", "assets/audio/rescue.mp3");
+    });
+
+    // Default theme
     textboxframe.style.backgroundImage = "url('assets/image/blue/bluebox.png')";
     iconframe.style.backgroundImage = "url('assets/image/blue/blueicon.png')";
   </script>
