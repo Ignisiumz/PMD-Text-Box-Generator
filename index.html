@@ -199,7 +199,7 @@ h2 {
   }
 
   .line {
-    font-size: clamp(16px, 3vw, 36px);
+    font-size: clamp(1px, 3vw, 36px);
     line-height: 1.3;
     font-family: "PMDFont", Arial, sans-serif;
     color: white;
@@ -271,7 +271,7 @@ h2 {
 
   #background-options {
     position: fixed;
-    bottom: 90px;
+    bottom: 130px;
     right: 20px;
     background: rgba(0,0,0,0.8);
     padding: 10px;
@@ -300,12 +300,6 @@ h2 {
     }
   }
 
-@media (max-width: 480px) {
-  .textbox-content .line {
-    font-size: clamp(1px, 4vw, 20px);
-  }
-}
-
   @media (max-width: 480px) {
     h1 {
       font-size: clamp(20px, 7vw, 32px);
@@ -323,6 +317,17 @@ h2 {
       bottom: 70px;
     }
   }
+
+@media (max-width: 480px) {
+  .triangle {
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid white;
+    margin: 4px auto 0 auto; 
+  }
+}
+
+
 </style>
 
 </head>
@@ -335,7 +340,7 @@ h2 {
   <img id="bgimage" src="" alt="Background">
 
   <h1>Pokemon Mystery Dungeon Textbox Generator</h1>
-<h2>Click the Time Gear on bottom right to change background!</h2>
+<h2>Click the Time Gear on bottom right to change wallpaper!</h2>
   <div class="controls">
     <label for="talker">Name:</label>
     <input type="text" id="talker" placeholder="Speaker name" value="Chikorita">
@@ -406,12 +411,14 @@ h2 {
 
   <div id="settings-timegear"></div>
   <div id="background-options">
-    <button class="btn" id="bgdefault">Personality Wave</button>
+    <button class="btn" id="bgdefault">Personality Test</button>
     <button class="btn" id="bgwiggly">Wigglytuff's Guild</button>
     <button class="btn" id="bgbeach">Beach at Dusk</button>
     <button class="btn" id="bgsympathy">Sympathy & Sincerity</button>
     <button class="btn" id="bgschool">The Way Home</button>
     <button class="btn" id="bgrescue">Rescue Team</button>
+    <button class="btn" id="bggrovyle">Time Gear</button>
+    <button class="btn" id="bgnight">Good Night</button>
   </div>
 
   <audio id="bgmusic" src="assets/audio/music.mp3" loop></audio>
@@ -457,6 +464,8 @@ h2 {
     const bgsympathy = document.getElementById('bgsympathy');
     const bgschool = document.getElementById('bgschool');
     const bgrescue = document.getElementById('bgrescue');
+        const bggrovyle = document.getElementById('bggrovyle');
+         const bgnight = document.getElementById('bgnight');
 
     let musicPlaying = false;
 
@@ -620,6 +629,14 @@ h2 {
 
     bgrescue.addEventListener('click', () => {
       switchToImage("assets/background/rescue.png", "assets/audio/rescue.mp3");
+    });
+
+        bggrovyle.addEventListener('click', () => {
+      switchToImage("assets/background/grovyle.png", "assets/audio/grovyle.mp3");
+    });
+
+            bgnight.addEventListener('click', () => {
+      switchToImage("assets/background/night.png", "assets/audio/night.mp3");
     });
 
     // Default theme
