@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ignisiumz.github.io/PMD-Text-Box-Generator/sitemap.xml
